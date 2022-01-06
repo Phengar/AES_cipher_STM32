@@ -60,10 +60,23 @@ void rotate_key(unsigned char * keyPart){
     keyPart[3]=temp;
 }
 
-void SBox(unsigned char *keyPart){
+void SBox_4(unsigned char *keyPart){
     for(int i=0; i<4; i++){
         keyPart[i]=sbox[keyPart[i]];
     }
+}
+
+void SBox_16(unsigned char *Part){
+    for(int i=0; i<16; i++){
+        Part[i]=sbox[Part[i]];
+    }
+}
+
+void ShiftRows(unsigned char *Part){
+    unsigned char temp1=Part[4],temp2=Part[8];
+    Part[4]=Part[5]; Part[5]=Part[6]; Part[6]=Part[7]; Part[7]=temp1;
+    temp1=Part[9]; Part[8]=Part[10]; Part[9]=Part[11]; Part[10]=temp2; Part[11]=temp1;
+    temp1=Part[15]; Part[15]=Part[14]; Part[14]=Part[13]; Part[13]=Part[12]; Part[12]=temp1;
 }
 
 void RCon(unsigned char *keyPart, int i){
@@ -73,13 +86,19 @@ void RCon(unsigned char *keyPart, int i){
 
 void roundKey(unsigned char *keyPart, int i){
     rotate_key(keyPart);
-    SBox(keyPart);
+    SBox_4(keyPart);
     RCon(keyPart,i);
 }
 
 void print_key(unsigned char *keyPart){
     for(int i=0; i<4; i++){
         printf("%x ", keyPart[i]);
+    }
+}
+
+void xor_a(unsigned char *a, unsigned char *b){
+    for (int i=0; i<16; i++){
+        a[i] ^= b[i];
     }
 }
 
@@ -119,7 +138,8 @@ int main(){
     }
 
 
-    printf("Hello world!"); 
+
+    printf("Hello world!!"); 
     return 0;
 }
 
