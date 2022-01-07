@@ -28,7 +28,8 @@ The final state is then the cyphered text
 ## Quick references :
 
 >A:
->|2|3|1|1|
->|1|2|3|1|
->|1|1|2|3|
->|3|1|1|2|
+
+  |2|3|1|1|
+  |1|2|3|1|
+  |1|1|2|3|
+  |3|1|1|2|
