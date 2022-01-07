@@ -33,5 +33,4 @@ $A = \begin{bmatrix}2 & 3 & 1 & 1\\
 3 & 1 & 1 & 2
 \end{bmatrix}$
 
-$A=\left[1 1 1 1\right]$
 
