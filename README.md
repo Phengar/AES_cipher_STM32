@@ -32,3 +32,8 @@ $$A = \begin{bmatrix}2 & 3 & 1 & 1\\
 1 & 1 & 2 & 3\\
 3 & 1 & 1 & 2
 \end{bmatrix}$$
+
+$$X = \begin{bmatrix}1 & x_{1}\\
+1 & x_{2}\\
+1 & x_{3}
+\end{bmatrix}$$
