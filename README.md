@@ -27,12 +27,9 @@ The final state is then the cyphered text
 
 ## Quick references :
 
-*A*:
-
-  |2|3|1|1|
-  
-  |1|2|3|1|
-  
-  |1|1|2|3|
-  
-  |3|1|1|2|
+$$A = \begin{bmatrix}1 & x_{1}\\
+2 & 3 & 1 & 1\\
+1 & 2 & 3 & 1\\
+1 & 1 & 2 & 3\\
+3 & 1 & 1 & 2
+\end{bmatrix}$$
