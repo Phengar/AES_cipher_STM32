@@ -27,11 +27,11 @@ The final state is then the cyphered text
 
 ## Quick references :
 
-$$A = \begin{bmatrix}2 & 3 & 1 & 1\\
+$A = \begin{bmatrix}2 & 3 & 1 & 1\\
 1 & 2 & 3 & 1\\
 1 & 1 & 2 & 3\\
 3 & 1 & 1 & 2
-\end{bmatrix}$$
+\end{bmatrix}$
 
 $$X = \begin{bmatrix}1 & x_{1}\\
 1 & x_{2}\\
