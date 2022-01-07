@@ -1,5 +1,5 @@
 # AES_cypher_STM32
-Projet de cryptographie: implémentation de l'algorithme de cryptage AES
+Cryptography project: implementing the AES cypher algorithm
 
 
 ## Key schedule
