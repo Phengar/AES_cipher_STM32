@@ -34,3 +34,5 @@ $A = \begin{bmatrix}2 & 3 & 1 & 1\\
 \end{bmatrix}$
 
 
+
+à check: J. Daemen and V. Rijmen, AES Proposal: Rijndael, AES Algorithm Submission, September 3, 1999, available at [1].
