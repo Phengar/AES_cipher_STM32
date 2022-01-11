@@ -27,6 +27,8 @@ The final state is then the cyphered text
 
 ## Quick references :
 
+The baseline for the verification of the algorithm is: https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf
+
 $A = \begin{bmatrix}2 & 3 & 1 & 1\\
 1 & 2 & 3 & 1\\
 1 & 1 & 2 & 3\\
