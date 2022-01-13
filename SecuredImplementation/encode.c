@@ -4,7 +4,7 @@
 #include <time.h>
 #include <unistd.h> 
 #include <sys/time.h>
-#include <sysinfoapi.h>
+
 
 #define BILLION  1000000000.0
 
@@ -219,67 +219,143 @@ void AddRoundKey(unsigned char *a, unsigned char *b){ //modify a to a^b
     }
 }
 
-int main(int argc, unsigned char *argv[]){
-    struct timespec start, end;
-   if(argc<3){ //catch error
-       printf("please supplie the message to encode and the key");
-       exit(1);
-   }
-    if(sizeof(argv[2])/sizeof(unsigned char)!=16){ //catch error
-        printf("size of key is %d when it should be 16\n", sizeof(argv[2])/sizeof(unsigned char));
+
+
+//int main(int argc, unsigned char *argv[]){
+//   /* struct timespec start, end;
+//   if(argc<3){ //catch error
+//       printf("please supplie the message to encode and the key");
+//       exit(1);
+//   }
+//    if(sizeof(argv[2])/sizeof(unsigned char)!=16){ //catch error
+//        printf("size of key is %d when it should be 16\n", sizeof(argv[2])/sizeof(unsigned char));
+//    }
+//    if(sizeof(argv[1])/sizeof(unsigned char)!=16){ //catch error
+//        printf("size of message is %d when it should be 16\n", sizeof(argv[2])/sizeof(unsigned char));
+//    }
+//    for( int i=0; i<16; i++){// for tests on static constants
+//        argv[2][i]=key[i];
+//        argv[1][i]=message[i];
+//    }*/
+//    /*printf("round[0].input ");
+//    print_key_16(argv[1]);
+//    printf("\n");
+//    printf("round[0].k_sch ");
+//    print_key_16(argv[2]);
+//    printf("\n");*/
+//    AddRoundKey(argv[1],argv[2]);
+//    for (int i=1;i<11; i++){
+//        /*printf("round[%d].start ", i);
+//        print_key_16(argv[1]);
+//        printf("\n");*/
+//        SBox_16(argv[1]);  //SBOX
+//        /*printf("round[%d].s_box ", i);
+//        print_key_16(argv[1]);
+//        printf("\n");*/
+//        ShiftRows(argv[1]);  //SHIFTROWS
+//        /*printf("round[%d].s_row ", i);
+//        print_key_16(argv[1]);
+//        printf("\n");*/
+//        if(i != 10){
+//            //long long int begin = GetTickCount64();
+//            mixColumns_16(argv[1]);  //MIXCOLUMNS
+//            /*long long int end = GetTickCount64();
+//            double elapsed = (end - begin)*1e-3;
+//            printf("Time measured: %.3f seconds.\n", elapsed);
+//            printf("round[%d].m_col ", i);
+//            print_key_16(argv[1]);
+//            printf("\n");*/
+//        }
+//        unsigned char save[4];
+//        for (int k=0; k<4; k++){
+//            save[k]=argv[2][12+k];
+//        }
+//        keySch(save,i);  //ROUNDKEYS
+//        for (int j=0; j<4; j++){
+//            argv[2][j]^= save[j];
+//            argv[2][4+j]^= argv[2][j];
+//            argv[2][8+j]^= argv[2][4+j];
+//            argv[2][12+j]^= argv[2][8+j];
+//        }
+//        /*printf("round[%d].k_sch ", i);
+//        print_key_16(argv[2]);
+//        printf("\n");*/
+//        AddRoundKey(argv[1],argv[2]); //ADDROUNDKEY
+//    } 
+//    printf("Encrypted message: ");
+//    print_key_16(argv[1]);  //DECRYPTED
+//}
+
+
+int main(int argc, char *argv[]) {
+
+    unsigned char i;
+    unsigned char str_len;
+    unsigned int val;
+    unsigned char plaintext[16], ciphertext[16];
+    unsigned char key[16]= {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
+   unsigned int bufferIn[50];
+    
+    //Load plaintext
+     str_len = strlen(argv[1]);
+     for (i = 0; i < (str_len / 2); i++) {
+         sscanf(argv[1] + 2*i, "%02x", &bufferIn[i]);
+         //printf("bytearray %d: %02x\n", i, bufferIn[i]);
+         plaintext[i] = bufferIn[i];
+     }
+
+     printf("INPUT:     ");
+     for(i = 0; i<16; i++){
+       printf("%02x ", plaintext[i]);
     }
-    if(sizeof(argv[1])/sizeof(unsigned char)!=16){ //catch error
-        printf("size of message is %d when it should be 16\n", sizeof(argv[2])/sizeof(unsigned char));
-    }
-    for( int i=0; i<16; i++){// for tests on static constants
-        argv[2][i]=key[i];
-        argv[1][i]=message[i];
-    }
-    printf("round[0].input ");
-    print_key_16(argv[1]);
+    
+/////////////////// ici votre AES////////////
+    /*printf("round[0].input ");
+    print_key_16(plaintext);
     printf("\n");
     printf("round[0].k_sch ");
-    print_key_16(argv[2]);
-    printf("\n");
-    AddRoundKey(argv[1],argv[2]);
-    for (int i=1;i<11; i++){
-        printf("round[%d].start ", i);
+    print_key_16(key);
+    printf("\n");*/
+    AddRoundKey(plaintext, key);
+    for (int i=1;i<11;i++){
+        /*printf("round[%d].start ", i);
         print_key_16(argv[1]);
-        printf("\n");
-        SBox_16(argv[1]);  //SBOX
-        printf("round[%d].s_box ", i);
-        print_key_16(argv[1]);
-        printf("\n");
-        ShiftRows(argv[1]);  //SHIFTROWS
-        printf("round[%d].s_row ", i);
-        print_key_16(argv[1]);
-        printf("\n");
-        if(i != 10){
-            long long int begin = GetTickCount64();
-            mixColumns_16(argv[1]);  //MIXCOLUMNS
-            long long int end = GetTickCount64();
-            double elapsed = (end - begin)*1e-3;
-            printf("Time measured: %.3f seconds.\n", elapsed);
-            printf("round[%d].m_col ", i);
+        printf("\n");*/
+        SBox_16(plaintext);
+        /*printf("round[%d].s_box ", i);
+        print_key_16(plaintext);
+        printf("\n");*/
+        ShiftRows(plaintext);
+        /*printf("round[%d].s_row ", i);
+        print_key_16(plaintext);
+        printf("\n");*/
+        if (i!=10){
+            mixColumns_16(plaintext);
+            /*printf("round[%d].m_col ", i);
             print_key_16(argv[1]);
-            printf("\n");
+            printf("\n");*/
         }
         unsigned char save[4];
         for (int k=0; k<4; k++){
-            save[k]=argv[2][12+k];
+            save[k]=key[12+k];
         }
         keySch(save,i);  //ROUNDKEYS
         for (int j=0; j<4; j++){
-            argv[2][j]^= save[j];
-            argv[2][4+j]^= argv[2][j];
-            argv[2][8+j]^= argv[2][4+j];
-            argv[2][12+j]^= argv[2][8+j];
+            key[j]^= save[j];
+            key[4+j]^= key[j];
+            key[8+j]^= key[4+j];
+            key[12+j]^= key[8+j];
         }
-        printf("round[%d].k_sch ", i);
-        print_key_16(argv[2]);
-        printf("\n");
-        AddRoundKey(argv[1],argv[2]); //ADDROUNDKEY
-    } 
-    printf("Encrypted message: ");
-    print_key_16(argv[1]);  //DECRYPTED
+        AddRoundKey(plaintext,key);
+    }
+/////////////////// ici votre AES////////////
+
+
+printf("\nOUTPUT:    ");
+for(i = 0; i<16; i++){
+  printf("%02x ", plaintext[i]);
 }
+printf("\n");
+
+}
+
